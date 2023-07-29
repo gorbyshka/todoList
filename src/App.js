@@ -1,25 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-function App() {
+import { Provider } from 'react-redux';
+
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from 'react-router-dom';
+
+import { TodoList } from './components/todoList';
+
+import { CompletedTasks } from './components/completedTask';
+
+import store from './store/store';
+
+export const App = () => {
+
+  const [completedTodos, setCompletedTodos] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;
+    <Provider store={store}>
+
+      <BrowserRouter>
+
+        <Routes>
+
+          <Route
+            exact
+            path="/"
+            element={
+
+              <TodoList
+                completedTodos={completedTodos}
+                setCompletedTodos={setCompletedTodos}
+              />
+
+            }
+          />
+
+          <Route
+            path="/completed"
+            element={
+
+              <CompletedTasks
+                completedTodos={completedTodos}
+              />
+
+            }
+          />
+
+        </Routes>
+
+      </BrowserRouter>
+
+    </Provider>
+
+  );
+
+};
